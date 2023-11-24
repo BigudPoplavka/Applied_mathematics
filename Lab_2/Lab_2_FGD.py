@@ -42,9 +42,9 @@ def gradient_descent(u0, max_iter=1000):
     for _ in range(max_iter):
         grad_J_uk = np.array(grad_J(uk))
 
-        def f_lr(b): return J(uk - b * grad_J_uk)
+        def one_dimension_J(b): return J(uk - b * grad_J_uk)
         
-        b = optimize_golden_section(f_lr, 0, delta_u)  
+        b = optimize_golden_section(one_dimension_J, 0, delta_u)  
         u_next = uk - b * grad_J_uk
 
         u1_values.append(u_next[0])
@@ -67,6 +67,7 @@ def show_method_result(u0, u1_values, u2_values):
     J_u = J(np.array([U1, U2]))
 
     fig = plt.figure(figsize=(16, 15))
+    
     ax = fig.add_subplot(111, projection='3d')
     ax.plot_surface(U1, U2, J_u, cmap='viridis', alpha=0.7)
     ax.set_xlabel('u1')
@@ -75,8 +76,6 @@ def show_method_result(u0, u1_values, u2_values):
     
     plt.plot(u0[0], u0[1], "Dk")
     plt.plot(u1_values, u2_values, "vr")
-    
-    
     plt.plot(u1_values, u2_values, "k-")
     plt.show()
 
